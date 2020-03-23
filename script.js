@@ -21,8 +21,8 @@ const game = {
         .sort(() => Match.random() - 0.5);
    },
    move(number) {
-       const Indx = this.board.findIndex(function(el => el === number), //search index of number which we will move
-         zeroIndx = this.board.findIndex(function(el => el === 0),
+       const Indx = this.board.findIndex(el => el === number), //search index of number which we will move
+         zeroIndx = this.board.findIndex(el => el === 0),
          canMoveNumber = (Indx === zeroIndx - 1 && zeroIndx % 4 !== 0) || 
          (Indx === zeroIndx + 1 && zeroIndx % 4 !== 3) ||
          (Indx === zeroIndx - 4)
@@ -34,6 +34,22 @@ const game = {
          if(this.isWin()) {
              console.log ('Win game!');
          }
+   },
+   startGame() {
+       this.board = this.createRandomBoard;
+       this.$items = this.board.map(renderItem);
+       console.log(this.$items);
    }
+
+}
+game.startGame();
+
+
+function renderItem(num) {
+    const $el = document.createElement('div');
+
+    $el.classList.add('board__item');
+    $el.innerText = num;
+    return $el
 
 }
