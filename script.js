@@ -4,52 +4,61 @@
 13 14 11 8 */
 
 const game = {
-   board : [1, 2, 3, 4, 5, 6, 0, 7, 9, 10, 15, 12, 13, 14, 11, 8],
-   winboard : '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0',
+   board: [1, 2, 3, 4, 5, 6, 0, 7, 9, 10, 15, 12, 13, 14, 11, 8],
+   winBoard: '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0',
    
    boardToString() {
-       return this.board.join(',');
+       return this.board.join(','); //function for compare 
    },
 
    isWin() {
-       return this.boardToString () === this.winboard;
+       return this.boardToString() === this.winBoard; // compare
    },
 
    createRandomBoard() {
-       return this.winboard
+       return this.winBoard
         .split(',')
-        .sort(() => Match.random() - 0.5);
+        .sort(() => Math.random() - 0.5);
    },
-   move(number) {
+   move(number) { //function movement 
        const Indx = this.board.findIndex(el => el === number), //search index of number which we will move
          zeroIndx = this.board.findIndex(el => el === 0),
          canMoveNumber = (Indx === zeroIndx - 1 && zeroIndx % 4 !== 0) || 
          (Indx === zeroIndx + 1 && zeroIndx % 4 !== 3) ||
          (Indx === zeroIndx - 4)
          (Indx === zeroIndx + 4);
-         if (canMoveNumber) {
-             this.board[Indx] = 0;
-             this.board[zeroIndx] = Indx;
-         }
-         if(this.isWin()) {
-             console.log ('Win game!');
-         }
-   },
-   startGame() {
-       this.board = this.createRandomBoard;
-       this.$items = this.board.map(renderItem);
-       console.log(this.$items);
-   }
 
-}
-game.startGame();
+      if (canMoveNumber) {
+          this.board[Indx] = 0;
+          this.board[zeroIndx] = number;
+      }
+      if (this.isWin()) {
+          console.log ('Win game!');
+      }
+   },
+   startGame($board) {
+       this.board = this.createRandomBoard();
+       this.$items = this.board.map(renderItem);
+
+       $board.append(...this.$items);
+   }
+},
+  indexToPosition(idx) {
+    const row = Math.floor(idx / 4);
+  }
+  $board = document.querySelector('.board');
+game.startGame($board);
+console.log({$board});
 
 
 function renderItem(num) {
+    if (num === 0) {
+      return;
+    }
     const $el = document.createElement('div');
 
     $el.classList.add('board__item');
     $el.innerText = num;
-    return $el
+    return $el;
 
 }
