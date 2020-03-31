@@ -38,27 +38,32 @@ const game = {
    },
    startGame($board) {
        this.board = this.createRandomBoard();
-       this.$items = this.board.map(renderItem);
+       this.$items = this.board
+       .filter(num => num !== '0')
+       .map(
+         (num, idx) => renderItem(num, this.indexToPosition(idx))
+         );
 
        $board.append(...this.$items);
-   }
-},
-  indexToPosition(idx) {
-    const row = Math.floor(idx / 4);
+   },
+   indexToPosition(idx) {
+    const row = Math.floor(idx / 4),
+      col = idx % 4;
+      return `left: ${col*25}%; top: ${row*25}%`;
   }
+}
+
   $board = document.querySelector('.board');
 game.startGame($board);
 console.log({$board});
 
 
-function renderItem(num) {
-    if (num === 0) {
-      return;
-    }
+function renderItem(num, position) {
     const $el = document.createElement('div');
 
     $el.classList.add('board__item');
     $el.innerText = num;
+    $el.setAttribute('style',position);
     return $el;
 
 }
