@@ -26,3 +26,8 @@
     border: 1px solid;
     border-radius: 4px;
 }
+.board__item--active {
+    cursor: pointer;
+    background-color: aqua;
+
+}
