@@ -32,7 +32,8 @@ const game = {
           this.board[zeroIndx] = number;
       }
 
-      this.render();
+      /* this.render(); */
+      this.changeItemsPosition();
 
       if (this.isWin()) {
           console.log ('Win game!');
@@ -64,7 +65,7 @@ const game = {
        $board.innerText = '';
        $board.append(...this.$items);
    },
-   indexToPosition (idx) {
+   indexToPosition(idx) {
     const row = Math.floor(idx / 4),
       col = idx % 4;
       return `left: ${col*25}%; top: ${row*25}%`;
@@ -85,8 +86,24 @@ const game = {
       if(isMoved) {
         this.move(+$item.innerText);
       }
-    
+  },
+  changeItemsPosition() {
+    const zeroIdx = this.getIndexByNumber(0);
+    this.$items.forEach(
+      $items => {
+        const num = +$items.innerText,
+          numberIndex = this.getIndexByNumber(num),
+          position = this.indexToPosition(numberIndex),
+          canMove = this.canMove(numberIndex,zeroIdx);
 
+          $items.setAttribute('style', position);
+
+          if (canMove) {  
+            $items.classList.add('board__item--active');
+          } else {
+            $items.classList.remove('board__item--active');
+          }
+    });
   }
 
 
